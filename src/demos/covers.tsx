@@ -4,6 +4,7 @@ import { fontVars as aubeFonts } from "./maison-aube/fonts";
 import { fontVars as voltFonts } from "./volt/fonts";
 import { fontVars as terroirFonts } from "./terroir/fonts";
 import { fontVars as nordFonts } from "./atelier-nord/fonts";
+import { fontVars as orbeFonts } from "./orbe/fonts";
 
 /**
  * Aperçus « affiche » de chaque démo, affichés sur la page d'accueil.
@@ -87,9 +88,25 @@ function AtelierNordCover() {
   );
 }
 
+function OrbeCover() {
+  return (
+    <div className={`${orbeFonts} absolute inset-0 overflow-hidden bg-[#121110] text-[#EDE6DA]`}>
+      <div className="absolute top-[18%] left-1/2 size-[70%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,217,160,.35),transparent_65%)]" />
+      {/* Lampe stylisée */}
+      <div className="absolute top-[26%] left-1/2 size-[34%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_40%_35%,#fff6e6,#ffd9a0_40%,#c98a4a_100%)] shadow-[0_0_80px_20px_rgba(255,200,130,.35)]" />
+      <div className="absolute top-[59%] left-1/2 h-[3%] w-[7%] -translate-x-1/2 rounded-sm bg-[#C9A15B]" />
+      <div className="absolute top-[62%] left-1/2 h-[18%] w-[1%] -translate-x-1/2 bg-[#C9A15B]" />
+      <div className="absolute top-[80%] left-1/2 h-[2.5%] w-[30%] -translate-x-1/2 rounded-[50%] bg-[linear-gradient(90deg,#8a6b35,#e2c27f,#8a6b35)]" />
+      <p className="absolute top-[8%] left-[8%] font-[family-name:var(--orbe-serif)] text-[clamp(1.6rem,3.5vw,2.4rem)] italic">Orbe</p>
+      <p className="absolute top-[9.5%] right-[8%] font-[family-name:var(--orbe-sans)] text-[0.6rem] tracking-[0.25em] uppercase opacity-60">3D · Live</p>
+    </div>
+  );
+}
+
 export const covers: Record<DemoSlug, ComponentType> = {
   "maison-aube": MaisonAubeCover,
   volt: VoltCover,
   terroir: TerroirCover,
   "atelier-nord": AtelierNordCover,
+  orbe: OrbeCover,
 };

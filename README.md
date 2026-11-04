@@ -2,7 +2,7 @@
 
 Portfolio haut de gamme qui présente des **sous-sites complets** (« inspirations »), chacun avec sa propre direction artistique, pour montrer aux clients ce qu'il est possible de réaliser pour eux.
 
-**Stack :** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Motion
+**Stack :** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Motion · Three.js (React Three Fiber)
 
 ```bash
 npm install
@@ -60,6 +60,13 @@ src/
 | `volt` | Volt | SaaS & Tech | Sombre, halos, bento | Tarifs mensuel / annuel |
 | `terroir` | Terroir | Restaurant | Organique, chaleureux | Carte à onglets animée |
 | `atelier-nord` | Atelier Nord | Architecture | Grille suisse, radical | Index avec aperçu au curseur |
+| `orbe` | Orbe | E-commerce / produit | Immersif, sculptural | Configurateur 3D temps réel |
+
+### La démo 3D (Orbe)
+
+- `scene.tsx` : scène WebGL (React Three Fiber + drei). La lampe est modélisée avec des primitives ; pour un vrai produit, exportez un `.glb` depuis Blender dans `public/demos/orbe/` et chargez-le avec `useGLTF`.
+- `configurator.tsx` : état du configurateur, partagé entre l'interface et la 3D. La scène est chargée avec `next/dynamic` (`ssr: false`) : le reste de la page s'affiche immédiatement et le bundle Three.js ne pèse que sur cette route.
+- L'éclairage utilise des `Lightformer` locaux : aucun fichier HDR téléchargé depuis un CDN.
 
 ## Ajouter un sous-site
 

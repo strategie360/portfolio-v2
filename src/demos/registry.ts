@@ -7,7 +7,7 @@
  * Pour ajouter une démo : voir README.md → « Ajouter un sous-site ».
  */
 
-export type DemoSlug = "maison-aube" | "volt" | "terroir" | "atelier-nord";
+export type DemoSlug = "maison-aube" | "volt" | "terroir" | "atelier-nord" | "orbe";
 
 export type Demo = {
   slug: DemoSlug;
@@ -71,6 +71,17 @@ export const demos: Demo[] = [
     highlights: ["Grille typographique", "Index de projets", "Minimalisme assumé"],
     palette: ["#F2F2F0", "#111111", "#FF3B1F", "#9A9A96"],
     fonts: ["Archivo", "Archivo Narrow"],
+  },
+  {
+    slug: "orbe",
+    name: "Orbe",
+    sector: "E-commerce & Produit 3D",
+    style: "Immersif · Sculptural · Interactif",
+    summary:
+      "Une maison de luminaires de designer. Configurateur 3D temps réel : finition, verre, taille, allumage — le prix suit.",
+    highlights: ["3D temps réel (WebGL)", "Configurateur produit", "Prix dynamique"],
+    palette: ["#121110", "#EDE6DA", "#C9A15B", "#FFD9A0"],
+    fonts: ["Bodoni Moda", "Manrope"],
   },
 ];
 
