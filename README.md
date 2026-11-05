@@ -68,6 +68,20 @@ src/
 - `configurator.tsx` : état du configurateur, partagé entre l'interface et la 3D. La scène est chargée avec `next/dynamic` (`ssr: false`) : le reste de la page s'affiche immédiatement et le bundle Three.js ne pèse que sur cette route.
 - L'éclairage utilise des `Lightformer` locaux : aucun fichier HDR téléchargé depuis un CDN.
 
+## Vérifier le responsive
+
+Un script ouvre chaque page dans Chrome (headless) à 7 largeurs (320 → 1920 px) et signale le défilement horizontal, les textes qui se chevauchent, sortent de l'écran ou débordent de leur bloc, ainsi que les décalages au chargement (CLS). Les nouvelles démos du registre sont incluses automatiquement.
+
+```bash
+npm run check:responsive   # build + vérification complète
+npm run check:cls          # texte « qui bouge » : CLS sur réseau lent, sans cache
+```
+
+- Captures d'écran et `report.json` dans `.checks/` (ignoré par git).
+- Code de sortie `1` en cas de problème : utilisable tel quel en CI.
+- Options : `node scripts/check-responsive.mjs --url http://localhost:3000` (serveur déjà lancé), `--pages /demos/volt`, `--widths 375,1440`.
+- Nécessite Google Chrome installé (ou la variable `CHROME_PATH`).
+
 ## Ajouter un sous-site
 
 1. **Créer le dossier** `src/demos/mon-slug/` avec `fonts.ts`, `content.ts`, `site.tsx` et `index.ts` (copier une démo existante est le plus rapide).
@@ -87,6 +101,8 @@ src/
    ```
 
 La carte apparaît automatiquement sur l'accueil et dans la navigation entre démos.
+
+5. **Vérifier** avec `npm run check:responsive` : la nouvelle démo est testée automatiquement à toutes les largeurs.
 
 ## Personnaliser
 
