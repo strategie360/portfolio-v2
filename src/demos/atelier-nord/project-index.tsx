@@ -29,10 +29,10 @@ export function ProjectIndex() {
     >
       <div className="grid grid-cols-12 border-b border-[#111] pb-2 font-[family-name:var(--nord-narrow)] text-xs uppercase">
         <span className="col-span-2 md:col-span-1">N°</span>
-        <span className="col-span-6 md:col-span-5">Projet</span>
+        <span className="col-span-7 md:col-span-5">Projet</span>
         <span className="hidden md:col-span-3 md:block">Typologie</span>
-        <span className="col-span-2">Lieu</span>
-        <span className="col-span-2 text-right md:col-span-1">Année</span>
+        <span className="hidden sm:col-span-2 sm:block">Lieu</span>
+        <span className="col-span-3 text-right sm:col-span-2 md:col-span-1">Année</span>
       </div>
 
       <ul>
@@ -43,12 +43,12 @@ export function ProjectIndex() {
             className="group grid cursor-pointer grid-cols-12 items-baseline border-b border-[#111]/20 py-4 transition-colors hover:bg-[#111] hover:text-[#F2F2F0] md:py-5"
           >
             <span className="col-span-2 pl-1 font-[family-name:var(--nord-narrow)] text-sm md:col-span-1">{p.id}</span>
-            <span className="col-span-6 text-2xl font-bold tracking-tight uppercase [font-stretch:80%] transition-transform group-hover:translate-x-2 md:col-span-5 md:text-4xl">
+            <span className="col-span-7 text-2xl sm:col-span-5 font-bold tracking-tight uppercase [font-stretch:80%] transition-transform group-hover:translate-x-2 md:col-span-5 md:text-4xl">
               {p.name}
             </span>
             <span className="hidden text-sm md:col-span-3 md:block">{p.type}</span>
-            <span className="col-span-2 text-sm">{p.place}</span>
-            <span className="col-span-2 pr-1 text-right text-sm md:col-span-1">{p.year}</span>
+            <span className="hidden text-sm sm:col-span-2 sm:block">{p.place}</span>
+            <span className="col-span-3 pr-1 text-right text-sm sm:col-span-2 md:col-span-1">{p.year}</span>
           </li>
         ))}
       </ul>

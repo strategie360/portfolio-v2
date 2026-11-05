@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Environment, Float, Lightformer, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -84,31 +84,46 @@ function Lamp({ finish, shade, size, lit }: LampProps) {
   );
 }
 
-/** Sur écran large, la lampe se décale à droite pour laisser respirer le titre. */
-function Stage({ children }: { children: React.ReactNode }) {
-  const wide = useThree((state) => state.viewport.aspect > 1.1);
-  return <group position={[wide ? 1.15 : 0, 0, 0]}>{children}</group>;
+/**
+ * Quand le titre est en surimpression (≥ 1280 px), on décale la *projection*
+ * de la caméra plutôt que la lampe : elle reste au centre de l'orbite, donc
+ * elle tourne sur elle-même sans jamais passer derrière le titre.
+ */
+function ViewOffset({ offset }: { offset: boolean }) {
+  const get = useThree((state) => state.get);
+  const width = useThree((state) => state.size.width);
+  const height = useThree((state) => state.size.height);
+
+  useEffect(() => {
+    const camera = get().camera as THREE.PerspectiveCamera;
+    if (offset) camera.setViewOffset(width, height, -width * 0.3, 0, width, height);
+    else camera.clearViewOffset();
+    camera.updateProjectionMatrix();
+  }, [get, offset, width, height]);
+
+  return null;
 }
 
-export default function OrbeScene(props: LampProps & { autoRotate: boolean }) {
-  const { autoRotate, ...lamp } = props;
+export default function OrbeScene(props: LampProps & { autoRotate: boolean; offset: boolean }) {
+  const { autoRotate, offset, ...lamp } = props;
   return (
     <Canvas
       shadows
       dpr={[1, 2]}
       camera={{ position: [0, 0.5, 8.2], fov: 35 }}
       gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}
+      style={{ touchAction: "pan-y" }}
+      resize={{ debounce: 0 }}
       aria-label="Lampe Orbe en 3D — faites-la pivoter à la souris"
     >
       <ambientLight intensity={0.15} />
       <spotLight position={[4, 6, 4]} angle={0.4} penumbra={1} intensity={30} castShadow />
 
-      <Stage>
-        <Float speed={1.2} rotationIntensity={0.08} floatIntensity={0.25} floatingRange={[-0.03, 0.03]}>
-          <Lamp {...lamp} />
-        </Float>
-        <ContactShadows position={[0, -1.45, 0]} opacity={0.55} scale={8} blur={2.6} far={3} />
-      </Stage>
+      <ViewOffset offset={offset} />
+      <Float speed={1.2} rotationIntensity={0.08} floatIntensity={0.25} floatingRange={[-0.03, 0.03]}>
+        <Lamp {...lamp} />
+      </Float>
+      <ContactShadows position={[0, -1.45, 0]} opacity={0.55} scale={8} blur={2.6} far={3} />
 
       {/* Environnement d'éclairage local (pas de HDR téléchargé) */}
       <Environment resolution={256}>

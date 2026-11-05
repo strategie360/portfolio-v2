@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState, useSyncExternalStore, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { BASE_PRICE, finishes, shades, sizes } from "./content";
@@ -15,6 +15,19 @@ const OrbeScene = dynamic(() => import("./scene"), {
     </div>
   ),
 });
+
+/** true à partir de 1280 px (breakpoint xl), sans erreur d'hydratation. */
+function useIsXl() {
+  return useSyncExternalStore(
+    (cb) => {
+      const mq = window.matchMedia("(min-width: 1280px)");
+      mq.addEventListener("change", cb);
+      return () => mq.removeEventListener("change", cb);
+    },
+    () => window.matchMedia("(min-width: 1280px)").matches,
+    () => false,
+  );
+}
 
 const eur = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
 
@@ -37,7 +50,7 @@ function Swatches<T extends { id: string; label: string }>({
         <span>{title}</span>
         <span className="tracking-normal normal-case">{value.label}</span>
       </legend>
-      <div className="mt-3 flex gap-2">
+      <div className="mt-3 flex flex-wrap gap-2">
         {items.map((item) => (
           <button
             key={item.id}
@@ -59,17 +72,20 @@ function Swatches<T extends { id: string; label: string }>({
   );
 }
 
-export function Configurator() {
+export function Configurator({ heading }: { heading: ReactNode }) {
   const [finish, setFinish] = useState<(typeof finishes)[number]>(finishes[0]);
   const [shade, setShade] = useState<(typeof shades)[number]>(shades[0]);
   const [size, setSize] = useState<(typeof sizes)[number]>(sizes[1]);
   const [lit, setLit] = useState(true);
   const reduce = useReducedMotion();
+  const isXl = useIsXl();
 
   const price = BASE_PRICE + finish.price + shade.price + size.price;
 
+  // minmax(0,1fr) + min-w-0 : la colonne 3D peut rétrécir même si le canvas
+  // garde temporairement son ancienne largeur pendant un redimensionnement.
   return (
-    <div className="relative grid min-h-[100svh] lg:grid-cols-[1fr_400px]">
+    <div className="relative grid min-h-[100svh] lg:grid-cols-[minmax(0,1fr)_400px]">
       {/* Halo d'ambiance qui suit l'état allumé / éteint */}
       <div
         aria-hidden
@@ -80,14 +96,20 @@ export function Configurator() {
         }}
       />
 
-      <div className="relative h-[68svh] lg:h-auto">
-        <OrbeScene finish={finish} shade={shade} size={size} lit={lit} autoRotate={!reduce} />
-        <p className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-xs tracking-[0.2em] uppercase opacity-50">
-          ⟲ Glissez pour tourner
-        </p>
+      <div className="relative flex min-w-0 flex-col">
+        {/* Titre : dans le flux sur mobile / tablette, en surimpression sur grand écran */}
+        <div className="relative z-10 px-6 pt-28 lg:px-10 xl:pointer-events-none xl:absolute xl:top-36 xl:left-10 xl:p-0">{heading}</div>
+
+        {/* touch-pan-y : le glissé vertical fait défiler la page, l'horizontal fait tourner la lampe */}
+        <div className="relative h-[58svh] min-h-[360px] overflow-hidden lg:h-auto lg:flex-1 lg:min-h-[480px] [&_canvas]:touch-pan-y! [&>div]:touch-pan-y!">
+          <OrbeScene finish={finish} shade={shade} size={size} lit={lit} autoRotate={!reduce} offset={isXl} />
+          <p className="pointer-events-none absolute bottom-24 left-1/2 -translate-x-1/2 xl:left-[80%] text-xs tracking-[0.2em] whitespace-nowrap uppercase opacity-50">
+            ⟲ Glissez pour tourner
+          </p>
+        </div>
       </div>
 
-      <aside className="relative flex flex-col justify-center gap-8 border-t border-[#EDE6DA]/10 px-6 py-10 lg:border-t-0 lg:border-l lg:px-10">
+      <aside className="relative mx-auto flex w-full max-w-xl flex-col justify-center gap-8 border-t border-[#EDE6DA]/10 px-6 pt-10 pb-28 lg:max-w-none lg:border-t-0 lg:border-l lg:px-10 lg:py-10">
         <div>
           <p className="text-xs tracking-[0.2em] uppercase opacity-60">Configurer</p>
           <h2 className="mt-2 font-[family-name:var(--orbe-serif)] text-4xl italic">Orbe Table</h2>
@@ -109,7 +131,7 @@ export function Configurator() {
           </span>
         </button>
 
-        <div className="flex items-end justify-between border-t border-[#EDE6DA]/10 pt-6">
+        <div className="flex flex-wrap items-end justify-between gap-4 border-t border-[#EDE6DA]/10 pt-6">
           <div>
             <p className="text-xs opacity-60">Prix TTC</p>
             <AnimatePresence mode="popLayout" initial={false}>
@@ -118,7 +140,7 @@ export function Configurator() {
                 initial={{ y: 12, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -12, opacity: 0 }}
-                className="font-[family-name:var(--orbe-serif)] text-3xl"
+                className="mt-1 font-[family-name:var(--orbe-serif)] text-3xl leading-tight"
               >
                 {eur.format(price)}
               </motion.p>

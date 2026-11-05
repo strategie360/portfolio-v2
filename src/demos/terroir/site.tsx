@@ -29,7 +29,7 @@ function Nav() {
 /** Badge circulaire en rotation. */
 function SpinBadge() {
   return (
-    <a href="#reserver" className="group absolute right-[6%] bottom-[8%] z-10 grid size-32 place-items-center md:size-40" aria-label="Réserver une table">
+    <a href="#reserver" className="group absolute right-[6%] bottom-[8%] z-10 hidden size-36 place-items-center lg:grid lg:size-40" aria-label="Réserver une table">
       <svg viewBox="0 0 100 100" className="absolute inset-0 animate-[spin_14s_linear_infinite]">
         <defs>
           <path id="circle" d="M50 50 m-38 0 a38 38 0 1 1 76 0 a38 38 0 1 1 -76 0" />
@@ -100,15 +100,15 @@ function About() {
           Camille et Julien ont ouvert Terroir en 2019 avec une idée simple : cuisiner ce que la saison offre, rien d&apos;autre. Chaque mardi, ils
           partent à la rencontre de leurs producteurs et reviennent avec la carte de la semaine.
         </p>
-        <div className="mt-10 grid grid-cols-3 gap-6 border-t-2 border-[#2E2219] pt-6">
+        <div className="mt-10 grid grid-cols-3 gap-3 border-t-2 sm:gap-6 border-[#2E2219] pt-6">
           {[
             ["12", "producteurs"],
             ["80 km", "rayon max."],
             ["52", "cartes / an"],
           ].map(([v, l]) => (
             <div key={l}>
-              <p className={cn(serif, "text-4xl font-semibold text-[#C4623A]")}>{v}</p>
-              <p className="text-sm">{l}</p>
+              <p className={cn(serif, "text-3xl font-semibold text-[#C4623A] sm:text-4xl")}>{v}</p>
+              <p className="text-xs sm:text-sm">{l}</p>
             </div>
           ))}
         </div>

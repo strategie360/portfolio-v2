@@ -26,18 +26,18 @@ function Photo({ tone, className }: { tone: keyof typeof tones; className?: stri
 function Nav() {
   return (
     <header className={cn(sans, "absolute inset-x-0 top-0 z-20 text-[#F4EEE4]")}>
-      <div className="mx-auto grid max-w-[1500px] grid-cols-3 items-center px-6 py-6 text-[0.7rem] tracking-[0.3em] uppercase md:px-12">
-        <nav className="hidden gap-8 md:flex">
+      <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-5 py-5 text-[0.7rem] tracking-[0.3em] uppercase md:px-12 md:py-6 lg:grid lg:grid-cols-3">
+        <nav className="hidden gap-8 lg:flex">
           {content.nav.map((n) => (
             <a key={n} href="#" className="transition hover:opacity-60">
               {n}
             </a>
           ))}
         </nav>
-        <p className={cn(serif, "col-start-2 text-center text-2xl tracking-[0.15em] normal-case italic md:text-3xl")}>
+        <p className={cn(serif, "text-2xl tracking-[0.1em] whitespace-nowrap normal-case italic md:text-3xl lg:col-start-2 lg:text-center")}>
           Maison Aube
         </p>
-        <a href="#reserver" className="justify-self-end border border-current px-5 py-2.5 transition hover:bg-[#F4EEE4] hover:text-[#2B241D]">
+        <a href="#reserver" className="shrink-0 border border-current px-3.5 py-2 whitespace-nowrap transition sm:px-5 sm:py-2.5 lg:justify-self-end hover:bg-[#F4EEE4] hover:text-[#2B241D]">
           Réserver
         </a>
       </div>
@@ -170,7 +170,7 @@ function Booking() {
       <h2 className={cn(serif, "text-center text-[clamp(2.4rem,5vw,4rem)] font-light")}>
         Votre <em>séjour</em>
       </h2>
-      <form className="mx-auto mt-14 grid max-w-4xl gap-8 md:grid-cols-4 md:items-end">
+      <form className="mx-auto mt-14 grid max-w-4xl gap-8 sm:grid-cols-2 sm:items-end lg:grid-cols-4">
         <label className={field}>
           Arrivée
           <input type="date" className={input} />
@@ -189,7 +189,7 @@ function Booking() {
         </label>
         <button
           type="button"
-          className={cn(sans, "bg-[#2B241D] px-6 py-4 text-[0.7rem] tracking-[0.3em] text-[#F4EEE4] uppercase transition hover:bg-[#8A6F52]")}
+          className={cn(sans, "bg-[#2B241D] px-6 py-4 text-[0.7rem] tracking-[0.3em] whitespace-nowrap text-[#F4EEE4] uppercase transition hover:bg-[#8A6F52]")}
         >
           Disponibilités
         </button>

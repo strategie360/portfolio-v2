@@ -32,9 +32,9 @@ function TopBar() {
 
 function Hero() {
   return (
-    <section className="px-4 pt-6 md:px-6">
+    <section className="px-4 pt-6 md:px-6 xl:pt-16">
       <Reveal y={40}>
-        <h1 className="text-[clamp(4rem,19.5vw,22rem)] leading-[0.78] font-black tracking-[-0.065em] uppercase [font-stretch:62%]">
+        <h1 className="text-[clamp(4rem,19.5vw,22rem)] leading-[0.78] font-black tracking-[-0.03em] uppercase [font-stretch:62%]">
           Atelier
           <br />
           Nord<span className="text-[#FF3B1F]">.</span>
@@ -60,16 +60,16 @@ function Hero() {
 
 function Feature() {
   return (
-    <section className="mt-24 grid gap-px bg-[#111] md:grid-cols-12">
-      <div className="relative aspect-[4/3] bg-[#C9C6BE] md:col-span-8 md:aspect-auto md:min-h-[70vh]">
+    <section className="mt-24 grid gap-px bg-[#111] lg:grid-cols-12">
+      <div className="relative aspect-[4/3] bg-[#C9C6BE] lg:col-span-8 lg:aspect-auto lg:min-h-[70vh]">
         <div className="absolute inset-x-[15%] top-[30%] bottom-0 bg-[#111]/85 [clip-path:polygon(0_45%,38%_0,100%_30%,100%_100%,0_100%)]" />
         <div className="absolute top-[52%] left-[40%] h-[22%] w-[9%] bg-[#FF3B1F]" />
         <span className={cn(label, "absolute top-4 left-4")}>Fig. 014</span>
       </div>
-      <div className="flex flex-col justify-between bg-[#F2F2F0] p-4 md:col-span-4 md:p-6">
+      <div className="flex flex-col justify-between bg-[#F2F2F0] p-4 md:p-6 lg:col-span-4">
         <p className={label}>Projet en vedette</p>
         <div className="mt-16">
-          <h2 className="text-6xl leading-[0.85] font-black tracking-[-0.05em] uppercase [font-stretch:70%] md:text-7xl">Fjordhus</h2>
+          <h2 className="text-6xl leading-[0.85] font-black tracking-[-0.02em] uppercase [font-stretch:70%] xl:text-7xl">Fjordhus</h2>
           <p className="mt-6 max-w-xs leading-snug">
             Une maison de 180 m² posée sur un socle de granit, ouverte sur le fjord par une unique baie de 14 mètres.
           </p>
@@ -91,7 +91,7 @@ function Index() {
   return (
     <section id="index" className="scroll-mt-4 px-4 py-28 md:px-6">
       <div className="mb-10 flex items-end justify-between">
-        <h2 className="text-5xl font-black tracking-[-0.05em] uppercase [font-stretch:70%] md:text-8xl">Index</h2>
+        <h2 className="text-5xl font-black tracking-[-0.02em] uppercase [font-stretch:70%] md:text-8xl">Index</h2>
         <p className={label}>(06 / 62)</p>
       </div>
       <ProjectIndex />
@@ -133,7 +133,7 @@ function Footer() {
         </p>
         <p className="md:col-span-3 md:text-right">Instagram / LinkedIn</p>
       </div>
-      <a href="#" className="mt-16 block text-[clamp(3rem,13vw,14rem)] leading-[0.8] font-black tracking-[-0.06em] uppercase [font-stretch:62%] transition-colors hover:text-[#FF3B1F]">
+      <a href="#" className="mt-16 block text-[clamp(3rem,13vw,14rem)] leading-[0.8] font-black tracking-[-0.03em] uppercase [font-stretch:62%] transition-colors hover:text-[#FF3B1F]">
         Écrivez-nous →
       </a>
     </footer>

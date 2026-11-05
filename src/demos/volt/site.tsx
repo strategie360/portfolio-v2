@@ -174,7 +174,7 @@ function Bento() {
         </Reveal>
         <Reveal className={cn(card, "md:col-span-2")} delay={0.15}>
           <h3 className="text-xl font-medium">API ouverte</h3>
-          <pre className={cn(mono, "mt-5 text-xs leading-relaxed text-white/50")}>
+          <pre className={cn(mono, "mt-5 text-xs leading-relaxed break-all whitespace-pre-wrap text-white/50")}>
             {`GET /v2/sites/:id/forecast\n→ 200 OK  ·  38 ms`}
           </pre>
         </Reveal>

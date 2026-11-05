@@ -32,15 +32,18 @@ function Nav() {
 function Hero() {
   return (
     <section className="relative">
-      <div className="pointer-events-none absolute top-28 left-6 z-10 max-w-md lg:top-36 lg:left-10">
-        <Reveal y={8}>
-          <p className={label}>Luminaires — Édition 2026</p>
-        </Reveal>
-        <h1 className={cn(serif, "mt-5 text-[clamp(3rem,7vw,6.5rem)] leading-[0.9]")}>
-          <RevealLines lines={["La lumière,", <em key="a">sculptée.</em>]} delay={0.2} />
-        </h1>
-      </div>
-      <Configurator />
+      <Configurator
+        heading={
+          <div className="max-w-xl">
+            <Reveal y={8}>
+              <p className={label}>Luminaires — Édition 2026</p>
+            </Reveal>
+            <h1 className={cn(serif, "mt-7 text-[clamp(2.8rem,7vw,6.5rem)] leading-[0.9]")}>
+              <RevealLines lines={["La lumière,", <em key="a">sculptée.</em>]} delay={0.2} />
+            </h1>
+          </div>
+        }
+      />
     </section>
   );
 }
@@ -117,7 +120,7 @@ function Specs() {
 
 export function OrbeSite() {
   return (
-    <div className={cn(fontVars, "min-h-dvh bg-[#121110] font-[family-name:var(--orbe-sans)] text-[#EDE6DA] selection:bg-[#C9A15B] selection:text-[#121110]")}>
+    <div className={cn(fontVars, "min-h-dvh overflow-x-clip bg-[#121110] font-[family-name:var(--orbe-sans)] text-[#EDE6DA] selection:bg-[#C9A15B] selection:text-[#121110]")}>
       <Nav />
       <main>
         <Hero />

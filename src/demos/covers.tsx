@@ -78,7 +78,7 @@ function AtelierNordCover() {
           <div key={i} className={i === 9 ? "bg-[#FF3B1F]" : "bg-[#F2F2F0]"} />
         ))}
       </div>
-      <p className="absolute bottom-[8%] left-[8%] font-[family-name:var(--nord-sans)] text-[clamp(2.4rem,6vw,4.2rem)] leading-[0.8] font-black tracking-[-0.06em] uppercase [font-stretch:75%]">
+      <p className="absolute bottom-[8%] left-[8%] font-[family-name:var(--nord-sans)] text-[clamp(2.4rem,6vw,4.2rem)] leading-[0.8] font-black tracking-[-0.03em] uppercase [font-stretch:75%]">
         Atelier
         <br />
         Nord
