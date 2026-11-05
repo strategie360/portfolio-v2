@@ -48,7 +48,7 @@ export function Capabilities() {
                 <p className="max-w-md leading-relaxed text-mute lg:col-span-4">{c.text}</p>
                 <ul className="flex flex-wrap gap-2 lg:col-span-3 lg:justify-end">
                   {c.items.map((item) => (
-                    <li key={item} className="rounded-full border border-line px-3 py-1 text-xs text-mute">
+                    <li key={item} className="rounded-full border border-line px-3 py-1 text-sm text-mute">
                       {item}
                     </li>
                   ))}

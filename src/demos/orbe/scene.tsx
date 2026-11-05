@@ -114,6 +114,7 @@ export default function OrbeScene(props: LampProps & { autoRotate: boolean; offs
       gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}
       style={{ touchAction: "pan-y" }}
       resize={{ debounce: 0 }}
+      role="img"
       aria-label="Lampe Orbe en 3D — faites-la pivoter à la souris"
     >
       <ambientLight intensity={0.15} />

@@ -10,7 +10,7 @@ function DemoCard({ demo, index }: { demo: Demo; index: number }) {
   return (
     <Link href={demoHref(demo.slug)} className="group block" aria-label={`Ouvrir la démo ${demo.name}`}>
       <div className="relative aspect-[4/5] overflow-hidden rounded-[1.25rem] bg-ink-3 md:aspect-[5/6]">
-        <div className="absolute inset-0 transition-transform duration-[1.2s] ease-out-expo group-hover:scale-[1.04]">
+        <div aria-hidden className="absolute inset-0 transition-transform duration-[1.2s] ease-out-expo group-hover:scale-[1.04]">
           <Cover />
         </div>
         <div className="absolute inset-0 bg-ink/0 transition duration-500 group-hover:bg-ink/25" />
@@ -25,7 +25,7 @@ function DemoCard({ demo, index }: { demo: Demo; index: number }) {
             <span className="font-mono text-xs text-mute">{pad(index + 1)}</span>
             <h3 className="font-display text-3xl">{demo.name}</h3>
           </div>
-          <p className="mt-1 text-sm text-mute">
+          <p className="mt-1 text-base text-mute">
             {demo.sector} — <span className="text-ivory/80">{demo.style}</span>
           </p>
         </div>
@@ -35,7 +35,7 @@ function DemoCard({ demo, index }: { demo: Demo; index: number }) {
           ))}
         </div>
       </div>
-      <p className="mt-3 max-w-md text-sm leading-relaxed text-mute">{demo.summary}</p>
+      <p className="mt-3 max-w-md text-base leading-relaxed text-mute">{demo.summary}</p>
     </Link>
   );
 }
@@ -51,7 +51,7 @@ export function Showcase() {
           </>
         }
         aside={
-          <p className="text-sm leading-relaxed">
+          <p className="text-base leading-relaxed">
             Chaque démo est un vrai site, pensé pour un secteur précis. Cliquez, naviguez, comparez — puis
             dites-moi lequel vous parle.
           </p>

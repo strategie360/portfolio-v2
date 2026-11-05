@@ -18,70 +18,23 @@
  *   node scripts/check-responsive.mjs --pages /demos/volt --widths 375,1440
  *
  * Variables : CHROME_PATH pour forcer l'exécutable Chrome.
- * Sortie : captures + rapport JSON dans .checks/ ; code de sortie 1 si problème.
+ * Sortie : captures + rapport JSON dans .checks/responsive (ou .checks/cls) ; code 1 si problème.
  */
-import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { chromium } from "playwright-core";
+import { flag, launchBrowser, opt, pageSlug, prepareOutDir, revealAll, runPool, selectedPages, startServer } from "./lib.mjs";
 
-// ── Options ────────────────────────────────────────────────────────────────
-const args = process.argv.slice(2);
-const opt = (name, fallback) => {
-  const i = args.indexOf(`--${name}`);
-  return i >= 0 ? args[i + 1] : fallback;
-};
-const CLS_MODE = args.includes("--cls");
-const PORT = 3100;
-const externalUrl = opt("url");
-const baseUrl = externalUrl ?? `http://localhost:${PORT}`;
+const CLS_MODE = flag("cls");
 const widths = opt("widths", CLS_MODE ? "375,1440" : "320,375,768,1024,1280,1440,1920").split(",").map(Number);
-const outDir = path.resolve(".checks");
-
-/** Pages : l'accueil + chaque démo déclarée dans le registre (ajout automatique). */
-function discoverPages() {
-  const registry = fs.readFileSync("src/demos/registry.ts", "utf8");
-  const slugs = [...registry.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
-  return ["/", ...slugs.map((s) => `/demos/${s}`)];
-}
-const pages = opt("pages")?.split(",") ?? discoverPages();
+const pages = selectedPages();
+const outDir = prepareOutDir(CLS_MODE ? "cls" : "responsive");
 
 // Seuils
 const CLS_LIMIT = 0.1; // « bon » selon les Core Web Vitals
 const CLS_WARN = 0.05;
 
-// ── Serveur ────────────────────────────────────────────────────────────────
-async function waitFor(url, timeoutMs = 30000) {
-  const start = Date.now();
-  while (Date.now() - start < timeoutMs) {
-    try {
-      if ((await fetch(url)).ok) return;
-    } catch {}
-    await new Promise((r) => setTimeout(r, 300));
-  }
-  throw new Error(`Serveur injoignable : ${url}`);
-}
-
-let server;
-if (!externalUrl) {
-  if (!fs.existsSync(".next/BUILD_ID")) {
-    console.error("Aucun build trouvé. Lancez `npm run build` (ou `npm run check:responsive`, qui le fait).");
-    process.exit(1);
-  }
-  server = spawn("npx", ["next", "start", "-p", String(PORT)], { stdio: "ignore" });
-  process.on("exit", () => server?.kill());
-}
-await waitFor(baseUrl);
-
-// ── Navigateur ─────────────────────────────────────────────────────────────
-const launchOpts = { args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] };
-const browser = await chromium
-  .launch(process.env.CHROME_PATH ? { ...launchOpts, executablePath: process.env.CHROME_PATH } : { ...launchOpts, channel: "chrome" })
-  .catch((e) => {
-    console.error("Impossible de lancer Chrome. Installez Google Chrome ou définissez CHROME_PATH.\n" + e.message);
-    server?.kill();
-    process.exit(1);
-  });
+const { baseUrl, stop } = await startServer();
+const browser = await launchBrowser();
 
 /** Collecte les layout shifts dès le début du chargement. */
 const observeShifts = () => {
@@ -173,19 +126,10 @@ async function checkLayout(pagePath, width) {
   await page.waitForTimeout(2500);
   const shifts = await page.evaluate(() => window.__shifts);
 
-  // Défilement complet pour déclencher les animations d'apparition.
-  await page.evaluate(async () => {
-    for (let y = 0; y < document.documentElement.scrollHeight; y += innerHeight * 0.6) {
-      window.scrollTo(0, y);
-      await new Promise((r) => setTimeout(r, 120));
-    }
-  });
-  await page.waitForTimeout(1600);
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await page.waitForTimeout(400);
+  await revealAll(page);
 
   const layout = await page.evaluate(inspectLayout);
-  const name = `${pagePath === "/" ? "accueil" : pagePath.split("/").pop()}-${width}`;
+  const name = `${pageSlug(pagePath)}-${width}`;
   await page.screenshot({ path: path.join(outDir, `${name}.png`) });
   await ctx.close();
   return { path: pagePath, width, ...layout, cls: +shifts.reduce((s, x) => s + x.value, 0).toFixed(4), shifts };
@@ -208,26 +152,13 @@ async function checkSlowCls(pagePath, width) {
 }
 
 // ── Exécution ──────────────────────────────────────────────────────────────
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
-
 const jobs = pages.flatMap((p) => widths.map((w) => [p, w]));
-const results = [];
-let next = 0;
-const worker = async () => {
-  while (next < jobs.length) {
-    const [p, w] = jobs[next++];
-    try {
-      results.push(await (CLS_MODE ? checkSlowCls(p, w) : checkLayout(p, w)));
-    } catch (e) {
-      results.push({ path: p, width: w, error: e.message.split("\n")[0] });
-    }
-  }
-};
 console.log(`${CLS_MODE ? "CLS réseau lent" : "Responsive"} — ${pages.length} pages × ${widths.length} largeurs sur ${baseUrl}\n`);
-await Promise.all(Array.from({ length: CLS_MODE ? 2 : 3 }, worker));
+const results = (
+  await runPool(jobs, CLS_MODE ? 2 : 3, ([p, w]) => (CLS_MODE ? checkSlowCls(p, w) : checkLayout(p, w)))
+).map((r) => (r.job ? { path: r.job[0], width: r.job[1], error: r.error } : r));
 await browser.close();
-server?.kill();
+stop();
 
 results.sort((a, b) => a.path.localeCompare(b.path) || a.width - b.width);
 fs.writeFileSync(path.join(outDir, "report.json"), JSON.stringify(results, null, 2));
@@ -251,5 +182,5 @@ for (const r of results) {
   if (problems.length) failures++;
 }
 
-console.log(`\n${failures ? `✗ ${failures} combinaison(s) en échec` : "✓ Tout est bon"} — captures et rapport : .checks/`);
+console.log(`\n${failures ? `✗ ${failures} combinaison(s) en échec` : "✓ Tout est bon"} — captures et rapport : ${path.relative(process.cwd(), outDir)}/`);
 process.exit(failures ? 1 : 0);

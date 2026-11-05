@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { nav, site } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,7 @@ import { cn } from "@/lib/utils";
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -15,6 +17,9 @@ export function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  /** Lien de la page courante (les liens avec ancre ne comptent pas). */
+  const isCurrent = (href: string) => !href.includes("#") && href === pathname;
 
   return (
     <header
@@ -31,9 +36,15 @@ export function SiteHeader() {
           <span className="text-sm tracking-tight">{site.name}</span>
         </Link>
 
-        <nav className="hidden items-center gap-8 text-sm text-mute md:flex">
+        {/* Menu complet à partir de 1024 px ; en dessous, bouton « Menu » */}
+        <nav aria-label="Menu principal" className="hidden items-center gap-8 text-[15px] text-ivory/75 lg:flex">
           {nav.map((item) => (
-            <Link key={item.href} href={item.href} className="transition hover:text-ivory">
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={isCurrent(item.href) ? "page" : undefined}
+              className="py-2 transition hover:text-ivory aria-[current=page]:text-ivory aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:underline-offset-8"
+            >
               {item.label}
             </Link>
           ))}
@@ -41,14 +52,14 @@ export function SiteHeader() {
 
         <Link
           href="/#contact"
-          className="hidden items-center gap-2 rounded-full bg-ivory px-4 py-2 text-sm font-medium text-ink transition hover:bg-accent md:inline-flex"
+          className="hidden min-h-11 items-center gap-2 rounded-full bg-ivory px-5 text-[15px] font-medium text-ink transition hover:bg-accent lg:inline-flex"
         >
           Démarrer un projet
         </Link>
 
         <button
           type="button"
-          className="text-sm md:hidden"
+          className="-mr-3 min-h-12 px-3 text-base lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((v) => !v)}
@@ -58,9 +69,15 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <nav id="mobile-nav" className="flex flex-col gap-1 border-t border-line px-5 py-4 md:hidden">
+        <nav id="mobile-nav" aria-label="Menu principal" className="flex flex-col gap-1 border-t border-line px-5 py-4 lg:hidden">
           {nav.map((item) => (
-            <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="py-2 font-display text-3xl">
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              aria-current={isCurrent(item.href) ? "page" : undefined}
+              className="py-2 font-display text-3xl aria-[current=page]:text-accent"
+            >
               {item.label}
             </Link>
           ))}

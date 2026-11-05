@@ -9,7 +9,9 @@ export const site = {
   tagline: "Des sites sur-mesure qui ressemblent à votre ambition.",
   description:
     "Studio indépendant de design et développement web. Explorez des univers complets — luxe, tech, gastronomie, architecture — pour imaginer le vôtre.",
+  // Adresse provisoire : à remplacer par la vôtre.
   email: "contact@votre-domaine.fr",
+  phone: "[À COMPLÉTER : téléphone]",
   location: "France — à distance partout",
   availability: "Disponible pour nouveaux projets",
   socials: [
@@ -19,9 +21,13 @@ export const site = {
   ],
 } as const;
 
+/**
+ * Menu principal. Savoir-faire et Méthode restent sur l'accueil
+ * (accessibles en faisant défiler) pour garder un menu court et simple.
+ */
 export const nav = [
   { label: "Inspirations", href: "/#inspirations" },
-  { label: "Savoir-faire", href: "/#savoir-faire" },
-  { label: "Méthode", href: "/#methode" },
+  { label: "Prestations", href: "/prestations" },
+  { label: "Sur mesure", href: "/prestations#sur-mesure" },
   { label: "Contact", href: "/#contact" },
 ] as const;

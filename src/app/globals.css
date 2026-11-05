@@ -63,6 +63,13 @@ body {
 }
 }
 
+/* Focus clavier bien visible sur le portfolio (les démos gardent leur style). */
+.portfolio :focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

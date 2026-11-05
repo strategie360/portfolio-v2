@@ -10,7 +10,7 @@ export function SiteFooter() {
         <ul className="flex gap-6">
           {site.socials.map((s) => (
             <li key={s.label}>
-              <a href={s.href} target="_blank" rel="noreferrer" className="transition hover:text-ivory">
+              <a href={s.href} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center transition hover:text-ivory">
                 {s.label}
               </a>
             </li>

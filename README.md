@@ -9,6 +9,7 @@ npm install
 npm run dev     # http://localhost:3000
 npm run build   # build de production (toutes les pages sont statiques)
 npm run lint
+npm run check   # tous les tests (voir « Tester le site »)
 ```
 
 ## Structure
@@ -20,7 +21,8 @@ src/
 │   ├── globals.css                # Tokens du portfolio (couleurs, polices, animations)
 │   ├── (portfolio)/               # Groupe de routes du site vitrine (n'apparaît pas dans l'URL)
 │   │   ├── layout.tsx             # Header + footer du portfolio
-│   │   └── page.tsx               # Accueil : hero, inspirations, savoir-faire, méthode, contact
+│   │   ├── page.tsx               # Accueil : hero, inspirations, renvoi prestations, savoir-faire, méthode, contact
+│   │   └── prestations/page.tsx   # /prestations : offres, paiement, « Sur mesure » (#sur-mesure), contact
 │   └── demos/
 │       ├── layout.tsx             # Ajoute la barre flottante (DemoBar) à chaque sous-site
 │       ├── page.tsx               # /demos → redirige vers /#inspirations
@@ -38,6 +40,7 @@ src/
 │
 ├── components/
 │   ├── portfolio/                 # Sections du site vitrine
+│   ├── prestations/               # Sections de la page Prestations
 │   ├── demo-shell/                # Chrome commun aux démos (DemoBar)
 │   └── ui/                        # Primitives partagées (Reveal, RevealLines)
 │
@@ -68,19 +71,37 @@ src/
 - `configurator.tsx` : état du configurateur, partagé entre l'interface et la 3D. La scène est chargée avec `next/dynamic` (`ssr: false`) : le reste de la page s'affiche immédiatement et le bundle Three.js ne pèse que sur cette route.
 - L'éclairage utilise des `Lightformer` locaux : aucun fichier HDR téléchargé depuis un CDN.
 
-## Vérifier le responsive
+## Tester le site
 
-Un script ouvre chaque page dans Chrome (headless) à 7 largeurs (320 → 1920 px) et signale le défilement horizontal, les textes qui se chevauchent, sortent de l'écran ou débordent de leur bloc, ainsi que les décalages au chargement (CLS). Les nouvelles démos du registre sont incluses automatiquement.
+Les tests ouvrent le site dans un vrai Chrome (headless), sur le build de production. Toutes les pages du portfolio et toutes les démos du registre sont incluses automatiquement.
 
 ```bash
-npm run check:responsive   # build + vérification complète
-npm run check:cls          # texte « qui bouge » : CLS sur réseau lent, sans cache
+npm run check              # tout : lint + build + parcours + accessibilité + responsive
+npm run check:navigation   # parcours et contenu
+npm run check:a11y         # accessibilité
+npm run check:responsive   # mise en page à 7 largeurs (320 → 1920 px)
+npm run check:cls          # texte « qui bouge » : décalages au chargement sur réseau lent
 ```
 
-- Captures d'écran et `report.json` dans `.checks/` (ignoré par git).
-- Code de sortie `1` en cas de problème : utilisable tel quel en CI.
-- Options : `node scripts/check-responsive.mjs --url http://localhost:3000` (serveur déjà lancé), `--pages /demos/volt`, `--widths 375,1440`.
-- Nécessite Google Chrome installé (ou la variable `CHROME_PATH`).
+| Script | Ce qu'il vérifie |
+| --- | --- |
+| `check-navigation.mjs` | Menu ordinateur et mobile, page courante signalée, ancres et boutons, liens internes, focus clavier visible. **Garde-fou contenu** : sur Prestations, aucun prix autre que « à partir de 200 € » / « à partir de 500 € », aucun pourcentage, aucune promesse. |
+| `check-a11y.mjs` | Règles WCAG 2.2 AA (axe-core), contrastes mesurés à l'écran quand axe ne peut pas les calculer (dégradés, grain), paragraphes ≥ 16 px, liens et boutons ≥ 14 px, cibles tactiles ≥ 24 px (44 px recommandés sur Prestations). Strict sur le portfolio, informatif sur les démos. |
+| `check-responsive.mjs` | Défilement horizontal, textes qui se chevauchent, sortent de l'écran ou débordent, CLS. |
+
+- Rapports et captures dans `.checks/` (ignoré par git). Code de sortie `1` en cas de problème : utilisable tel quel en CI.
+- Options communes : `--url http://localhost:3000` (serveur déjà lancé), `--pages /prestations`, `--widths 375,1440`.
+- Nécessite Google Chrome installé (ou la variable `CHROME_PATH`). Dépendances de développement uniquement : `playwright-core`, `axe-core`.
+
+## Emplacements à compléter
+
+Les informations encore inconnues sont marquées `[À COMPLÉTER : …]` et apparaissent **surlignées en pointillé** sur le site. Pour les lister :
+
+```bash
+grep -rn "À COMPLÉTER" src
+```
+
+L'adresse e-mail provisoire (`contact@votre-domaine.fr`) et le téléphone se règlent dans `src/config/site.ts`.
 
 ## Ajouter un sous-site
 
@@ -102,7 +123,7 @@ npm run check:cls          # texte « qui bouge » : CLS sur réseau lent, sans 
 
 La carte apparaît automatiquement sur l'accueil et dans la navigation entre démos.
 
-5. **Vérifier** avec `npm run check:responsive` : la nouvelle démo est testée automatiquement à toutes les largeurs.
+5. **Vérifier** avec `npm run check` : la nouvelle démo est testée automatiquement.
 
 ## Personnaliser
 

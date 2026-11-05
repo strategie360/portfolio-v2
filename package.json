@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "check:responsive": "next build && node scripts/check-responsive.mjs",
-    "check:cls": "next build && node scripts/check-responsive.mjs --cls"
+    "check:cls": "next build && node scripts/check-responsive.mjs --cls",
+    "check:a11y": "next build && node scripts/check-a11y.mjs",
+    "check:navigation": "next build && node scripts/check-navigation.mjs",
+    "check": "npm run lint && next build && node scripts/check-navigation.mjs && node scripts/check-a11y.mjs && node scripts/check-responsive.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
@@ -26,6 +29,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.187.0",
+    "axe-core": "^4.10.2",
     "eslint": "^9",
     "eslint-config-next": "16.4.5",
     "playwright-core": "^1.49.1",

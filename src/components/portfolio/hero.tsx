@@ -44,7 +44,7 @@ export function Hero() {
           <Reveal className="flex items-end gap-4 md:col-span-4 md:col-start-9 md:justify-end" delay={0.5}>
             <a
               href="#inspirations"
-              className="group inline-flex items-center gap-3 rounded-full border border-line px-6 py-3.5 text-sm transition hover:border-ivory"
+              className="group inline-flex items-center gap-3 rounded-full border border-line px-6 py-3.5 text-base transition hover:border-ivory"
             >
               Explorer les inspirations
               <span className="transition group-hover:translate-y-0.5" aria-hidden>
