@@ -108,7 +108,7 @@ L'adresse e-mail et le téléphone se règlent dans `src/config/site.ts`.
 
 Pour les clients en formule « selon les résultats ». Le compteur ne garde aucune donnée personnelle. La grille se règle dans `src/lib/results/grid.mjs` (la page Prestations la reprend).
 
-**Mise en place, une seule fois :** créez un projet Supabase, exécutez `supabase/resultats.sql`, puis renseignez `SUPABASE_URL` et `SUPABASE_SERVICE_ROLE_KEY` dans `.env.local` et sur Vercel. La clé de service reste côté serveur.
+**Mise en place, une seule fois :** créez un projet Supabase, exécutez `supabase/resultats.sql`, puis renseignez `SUPABASE_URL` et `SUPABASE_SECRET_KEY` (clé `sb_secret_…`) dans `.env.local` et sur Vercel. La clé secrète reste côté serveur : jamais de préfixe `NEXT_PUBLIC_`.
 
 ```bash
 npm run results -- add-client --slug boulangerie --name "Boulangerie X" --start 2026-12-01

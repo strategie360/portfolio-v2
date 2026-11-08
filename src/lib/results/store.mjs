@@ -54,12 +54,12 @@ function fileStore(path) {
 
 const PAGE_SIZE = 1000;
 
-/** Stockage Supabase par son API REST, sans dépendance. Clé de service : côté serveur uniquement. */
-function supabaseStore(url, serviceKey, fetchImpl = fetch) {
+/** Stockage Supabase par son API REST, sans dépendance. Clé secrète (sb_secret_…) : côté serveur uniquement, dans `apikey`. */
+function supabaseStore(url, secretKey, fetchImpl = fetch) {
   async function request(path, init = {}) {
     const response = await fetchImpl(`${url}/rest/v1/${path}`, {
       ...init,
-      headers: { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json", ...init.headers },
+      headers: { apikey: secretKey, "Content-Type": "application/json", ...init.headers },
       cache: "no-store",
     });
     if (!response.ok) throw new Error(`Supabase a répondu ${response.status} : ${await response.text()}`);
@@ -119,6 +119,6 @@ export const createSupabaseStore = supabaseStore;
 /** Choisit le stockage selon l'environnement. Sans configuration, le compteur refuse de démarrer. */
 export function getStore(env = process.env) {
   if (env.RESULTS_STORE === "file" && env.RESULTS_FILE) return fileStore(env.RESULTS_FILE);
-  if (env.SUPABASE_URL && env.SUPABASE_SERVICE_ROLE_KEY) return supabaseStore(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
-  throw new Error("Compteur non configuré : renseignez SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY.");
+  if (env.SUPABASE_URL && env.SUPABASE_SECRET_KEY) return supabaseStore(env.SUPABASE_URL, env.SUPABASE_SECRET_KEY);
+  throw new Error("Compteur non configuré : renseignez SUPABASE_URL et SUPABASE_SECRET_KEY.");
 }

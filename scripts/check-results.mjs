@@ -77,6 +77,8 @@ await test("Supabase : un doublon est ignoré et les colonnes sont traduites", a
   });
   assert.equal(await store.insertEvent({ clientSlug: "x", ref: "r", kind: "devis", amountCents: null, occurredAt: at }), false);
   assert.match(calls[0].init.headers.Prefer, /ignore-duplicates/);
+  assert.equal(calls[0].init.headers.apikey, "cle");
+  assert.equal(calls[0].init.headers.Authorization, undefined, "une clé sb_ ne va que dans apikey");
   assert.deepEqual(await store.listEvents("x", monthBounds("2026-03")), [{ clientSlug: "x", ref: "r", kind: "devis", amountCents: null, status: "compte", occurredAt: at }]);
 });
 
