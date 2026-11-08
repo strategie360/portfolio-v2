@@ -1,7 +1,7 @@
 import { ButtonLink } from "@/components/ui/button-link";
-import { Fill } from "@/components/ui/fill";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/portfolio/section-heading";
+import { StockDemo } from "./stock-demo";
 
 const examples = [
   {
@@ -71,11 +71,8 @@ export function CustomTools() {
           </p>
         </Reveal>
 
-        {/* Emplacement de preuve : à remplacer par un exemple réel (sans inventer). */}
-        <Reveal delay={0.08} className="grid place-items-center rounded-[1.25rem] border-2 border-dashed border-accent/50 p-6 text-center sm:p-8">
-          <p className="text-lg">
-            <Fill>[À COMPLÉTER : exemple réel]</Fill>
-          </p>
+        <Reveal delay={0.08} className="rounded-[1.25rem] border border-line bg-ink-2 p-6 sm:p-8">
+          <StockDemo />
         </Reveal>
       </div>
 

@@ -4,24 +4,24 @@ import { SectionHeading } from "./section-heading";
 
 const capabilities = [
   {
-    title: "Direction artistique",
-    text: "Une identité visuelle cohérente : typographies, palette, rythme et ton. Votre site ne ressemble à aucun autre.",
-    items: ["Moodboard", "Système typographique", "Charte web"],
+    title: "Un site à votre image",
+    text: "Vos couleurs, vos photos, votre façon de parler. Votre site vous ressemble.",
+    items: ["Vos couleurs", "Vos photos", "Votre style"],
   },
   {
-    title: "Design d'interface",
-    text: "Des parcours clairs qui convertissent, du premier écran au formulaire de contact ou au panier.",
-    items: ["Maquettes Figma", "Responsive", "Accessibilité"],
+    title: "Facile pour vos clients",
+    text: "Vos horaires, votre adresse et votre offre se trouvent tout de suite, sur téléphone comme sur ordinateur.",
+    items: ["Téléphone", "Ordinateur", "Facile à lire"],
   },
   {
-    title: "Développement",
-    text: "Un code moderne, rapide et maintenable. Vous êtes autonome pour faire évoluer vos contenus.",
-    items: ["Next.js & React", "CMS headless", "E-commerce"],
+    title: "Vous joindre en un geste",
+    text: "Un bouton pour vous appeler, un formulaire pour vous écrire ou la réservation en ligne.",
+    items: ["Appel", "Formulaire", "Réservation"],
   },
   {
-    title: "Performance & SEO",
-    text: "Des pages qui chargent en un éclair et remontent dans Google. La beauté ne se fait pas au détriment de la vitesse.",
-    items: ["Core Web Vitals", "SEO technique", "Analytics"],
+    title: "Rapide et prêt pour Google",
+    text: "Votre site s'ouvre vite et il est préparé pour que Google le comprenne bien.",
+    items: ["Rapide", "Préparé pour Google"],
   },
 ];
 
@@ -30,10 +30,10 @@ export function Capabilities() {
     <section id="savoir-faire" className="scroll-mt-20 border-t border-line bg-ink-2">
       <div className="mx-auto max-w-[1400px] px-5 py-28 md:px-10 md:py-40">
         <SectionHeading
-          eyebrow="(02) Savoir-faire"
+          eyebrow="(02) Ce que vous obtenez"
           title={
             <>
-              De l&apos;idée <em className="text-accent">au site en ligne.</em>
+              Un site <em className="text-accent">simple et utile.</em>
             </>
           }
         />

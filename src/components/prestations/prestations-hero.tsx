@@ -14,8 +14,8 @@ export function PrestationsHero() {
         </h1>
         <Reveal delay={0.3}>
           <p className="mt-10 max-w-2xl text-lg leading-relaxed text-ivory/80 md:text-xl">
-            Je crée des sites pour les commerces : restaurants, artisans, boutiques. Vous démarrez avec un petit forfait. Ensuite, vous
-            payez selon ce que le site vous apporte vraiment.
+            Je crée des sites pour les commerces : restaurants, artisans, boutiques. Deux façons de payer : moins au départ puis
+            selon ce que le site vous apporte, ou une seule fois.
           </p>
         </Reveal>
         <Reveal delay={0.4} className="mt-10 flex flex-col gap-3 sm:flex-row">

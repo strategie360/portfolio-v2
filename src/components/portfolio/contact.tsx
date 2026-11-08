@@ -17,10 +17,10 @@ export function Contact({
   eyebrow = "(04) Contact",
   title = (
     <>
-      Parlons de <em className="text-accent">votre</em> projet.
+      Parlons de <em className="text-accent">votre</em> commerce.
     </>
   ),
-  text = "Dites-moi quelle inspiration vous a parlé — ou aucune. Réponse sous [À COMPLÉTER : délai de réponse] avec une première proposition de direction.",
+  text = "Dites-moi quel exemple vous a plu, ou simplement ce que vous faites. Je vous réponds sous 48 h, sans jargon.",
   showPhone = false,
 }: ContactProps) {
   const phoneMissing = isPlaceholder(site.phone);

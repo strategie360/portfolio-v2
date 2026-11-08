@@ -1,21 +1,16 @@
+import Link from "next/link";
 import { site } from "@/config/site";
 
 export function SiteFooter() {
   return (
     <footer className="border-t border-line">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-5 py-10 text-sm text-mute md:flex-row md:items-center md:justify-between md:px-10">
+      <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-5 py-10 text-base text-mute md:flex-row md:items-center md:justify-between md:px-10">
         <p>
           © {site.name} — {site.location}
         </p>
-        <ul className="flex gap-6">
-          {site.socials.map((s) => (
-            <li key={s.label}>
-              <a href={s.href} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center transition hover:text-ivory">
-                {s.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <Link href="/mentions-legales" className="inline-flex min-h-11 items-center underline-offset-4 transition hover:text-ivory hover:underline">
+          Mentions légales
+        </Link>
       </div>
     </footer>
   );

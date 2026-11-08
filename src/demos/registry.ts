@@ -29,12 +29,23 @@ export type Demo = {
 
 export const demos: Demo[] = [
   {
+    slug: "terroir",
+    name: "Terroir",
+    sector: "Restaurant & Artisanat",
+    style: "Chaleureux · Organique · Généreux",
+    summary:
+      "Un bistrot imaginé à Lyon. La carte du moment et la réservation sont à portée de main.",
+    highlights: ["Carte du moment", "Identité gourmande", "Parcours réservation"],
+    palette: ["#F6EBDC", "#C4623A", "#5E6B3A", "#2E2219"],
+    fonts: ["Fraunces", "DM Sans"],
+  },
+  {
     slug: "maison-aube",
     name: "Maison Aube",
     sector: "Hôtellerie de luxe",
     style: "Éditorial · Raffiné · Silencieux",
     summary:
-      "Un hôtel particulier fictif sur la côte basque. Grandes serifs, rythme de magazine et respiration généreuse.",
+      "Un hôtel imaginé sur la côte basque. De grandes images, une ambiance élégante et une réservation simple.",
     highlights: ["Mise en page éditoriale", "Réservation élégante", "Storytelling de marque"],
     palette: ["#F4EEE4", "#D9CBB5", "#8A6F52", "#2B241D"],
     fonts: ["Cormorant Garamond", "Jost"],
@@ -45,21 +56,10 @@ export const demos: Demo[] = [
     sector: "SaaS & Tech",
     style: "Sombre · Lumineux · Technique",
     summary:
-      "Une plateforme d'énergie pilotée par l'IA. Grille bento, halos lumineux, chiffres clés et grille tarifaire.",
+      "Une entreprise d'énergie imaginée. Ses services et ses tarifs se comprennent en un coup d'œil.",
     highlights: ["Landing produit", "Bento & métriques", "Pricing clair"],
     palette: ["#07080C", "#151826", "#7C5CFF", "#3DF2C1"],
     fonts: ["Space Grotesk", "JetBrains Mono"],
-  },
-  {
-    slug: "terroir",
-    name: "Terroir",
-    sector: "Restaurant & Artisanat",
-    style: "Chaleureux · Organique · Généreux",
-    summary:
-      "Un bistrot de saison à Lyon. Formes douces, carte vivante, tons terre et invitation à réserver.",
-    highlights: ["Carte du moment", "Identité gourmande", "Parcours réservation"],
-    palette: ["#F6EBDC", "#C4623A", "#5E6B3A", "#2E2219"],
-    fonts: ["Fraunces", "DM Sans"],
   },
   {
     slug: "atelier-nord",
@@ -67,7 +67,7 @@ export const demos: Demo[] = [
     sector: "Architecture & Design",
     style: "Suisse · Rigoureux · Radical",
     summary:
-      "Un studio d'architecture à Oslo. Grille stricte, typographie massive, index de projets interactif.",
+      "Un studio d'architecture imaginé à Oslo. Un style très épuré pour mettre ses projets en valeur.",
     highlights: ["Grille typographique", "Index de projets", "Minimalisme assumé"],
     palette: ["#F2F2F0", "#111111", "#FF3B1F", "#9A9A96"],
     fonts: ["Archivo", "Archivo Narrow"],
@@ -78,7 +78,7 @@ export const demos: Demo[] = [
     sector: "E-commerce & Produit 3D",
     style: "Immersif · Sculptural · Interactif",
     summary:
-      "Une maison de luminaires de designer. Configurateur 3D temps réel : finition, verre, taille, allumage — le prix suit.",
+      "Une boutique de lampes imaginée. On choisit sa lampe en 3D et le prix s'adapte à chaque choix.",
     highlights: ["3D temps réel (WebGL)", "Configurateur produit", "Prix dynamique"],
     palette: ["#121110", "#EDE6DA", "#C9A15B", "#FFD9A0"],
     fonts: ["Bodoni Moda", "Manrope"],

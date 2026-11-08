@@ -22,7 +22,8 @@ src/
 │   ├── (portfolio)/               # Groupe de routes du site vitrine (n'apparaît pas dans l'URL)
 │   │   ├── layout.tsx             # Header + footer du portfolio
 │   │   ├── page.tsx               # Accueil : hero, inspirations, renvoi prestations, savoir-faire, méthode, contact
-│   │   └── prestations/page.tsx   # /prestations : offres, paiement, « Sur mesure » (#sur-mesure), contact
+│   │   ├── prestations/page.tsx   # /prestations : offres, paiement, « Sur mesure » (#sur-mesure), contact
+│   │   └── mentions-legales/page.tsx  # Éditeur, hébergeur, données personnelles
 │   └── demos/
 │       ├── layout.tsx             # Ajoute la barre flottante (DemoBar) à chaque sous-site
 │       ├── page.tsx               # /demos → redirige vers /#inspirations
@@ -44,7 +45,7 @@ src/
 │   ├── demo-shell/                # Chrome commun aux démos (DemoBar)
 │   └── ui/                        # Primitives partagées (Reveal, RevealLines)
 │
-├── config/site.ts                 # Identité, e-mail, réseaux, navigation
+├── config/site.ts                 # Identité, e-mail, téléphone, navigation
 └── lib/                           # Utilitaires (cn, pad, demoMetadata)
 ```
 
@@ -85,7 +86,7 @@ npm run check:cls          # texte « qui bouge » : décalages au chargement su
 
 | Script | Ce qu'il vérifie |
 | --- | --- |
-| `check-navigation.mjs` | Menu ordinateur et mobile, page courante signalée, ancres et boutons, liens internes, focus clavier visible. **Garde-fou contenu** : sur Prestations, aucun prix autre que « à partir de 200 € » / « à partir de 500 € », aucun pourcentage, aucune promesse. |
+| `check-navigation.mjs` | Menu ordinateur et mobile, page courante signalée, ancres et boutons, liens internes, focus clavier visible. **Garde-fou contenu** : sur Prestations, seuls les prix validés (création, prix unique, hébergement, grille des résultats), aucune promesse. |
 | `check-a11y.mjs` | Règles WCAG 2.2 AA (axe-core), contrastes mesurés à l'écran quand axe ne peut pas les calculer (dégradés, grain), paragraphes ≥ 16 px, liens et boutons ≥ 14 px, cibles tactiles ≥ 24 px (44 px recommandés sur Prestations). Strict sur le portfolio, informatif sur les démos. |
 | `check-responsive.mjs` | Défilement horizontal, textes qui se chevauchent, sortent de l'écran ou débordent, CLS. |
 
@@ -101,7 +102,31 @@ Les informations encore inconnues sont marquées `[À COMPLÉTER : …]` et appa
 grep -rn "À COMPLÉTER" src
 ```
 
-L'adresse e-mail provisoire (`contact@votre-domaine.fr`) et le téléphone se règlent dans `src/config/site.ts`.
+L'adresse e-mail et le téléphone se règlent dans `src/config/site.ts`.
+
+## Compteur de résultats et rapport mensuel
+
+Pour les clients en formule « selon les résultats ». Le compteur ne garde aucune donnée personnelle. La grille se règle dans `src/lib/results/grid.mjs` (la page Prestations la reprend).
+
+**Mise en place, une seule fois :** créez un projet Supabase, exécutez `supabase/resultats.sql`, puis renseignez `SUPABASE_URL` et `SUPABASE_SERVICE_ROLE_KEY` dans `.env.local` et sur Vercel. La clé de service reste côté serveur.
+
+```bash
+npm run results -- add-client --slug boulangerie --name "Boulangerie X" --start 2026-12-01
+npm run results -- reject --client boulangerie --ref commande-42   # écarte un spam
+npm run results -- report --client boulangerie --month 2026-11     # crée .reports/boulangerie-2026-11.html
+```
+
+**Sur le site du client**, depuis le serveur uniquement, quand une demande réelle arrive :
+
+```ts
+await fetch("https://votre-domaine/api/resultats", {
+  method: "POST",
+  headers: { Authorization: `Bearer ${process.env.RESULTS_API_KEY}`, "Content-Type": "application/json" },
+  body: JSON.stringify({ kind: "devis", ref: demande.id }), // reservation | rendez-vous | devis | vente (+ amountCents)
+});
+```
+
+`ref` doit être unique pour chaque demande : un doublon n'est compté qu'une fois. Le mois où le contrat commence compte comme le mois 1.
 
 ## Ajouter un sous-site
 
@@ -127,5 +152,5 @@ La carte apparaît automatiquement sur l'accueil et dans la navigation entre dé
 
 ## Personnaliser
 
-- **Identité & contact** : `src/config/site.ts` (pensez à remplacer `contact@votre-domaine.fr`).
+- **Identité & contact** : `src/config/site.ts`.
 - **Visuels** : les « photos » des démos sont générées en CSS pour rester légères et libres de droits. Pour utiliser de vraies images, déposez-les dans `public/demos/<slug>/` et remplacez les composants `Photo` / blocs colorés par `next/image`.

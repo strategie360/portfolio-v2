@@ -1,11 +1,11 @@
 const words = [
-  "Direction artistique",
-  "Design d'interface",
-  "Développement Next.js",
-  "Motion design",
-  "SEO & performance",
-  "E-commerce",
-  "Identité de marque",
+  "Restaurants",
+  "Artisans",
+  "Boutiques",
+  "Commerces de quartier",
+  "Vos horaires",
+  "Votre adresse",
+  "Réservation en ligne",
 ];
 
 export function Marquee() {

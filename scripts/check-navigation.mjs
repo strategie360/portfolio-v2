@@ -5,7 +5,7 @@
  * - Menu ordinateur et mobile, page courante signalée, ancres, boutons.
  * - Tous les liens internes répondent et leurs ancres existent.
  * - Garde-fou contenu : sur la page Prestations, aucun prix autre que
- *   « à partir de 200 € » / « à partir de 500 € », aucun pourcentage.
+ *   « à partir de 200 € » / « à partir de 500 € » le prix unique, l'hébergement et la grille des résultats validés.
  * - Focus clavier visible.
  *
  * Usage : npm run check:navigation   (option : --url)
@@ -97,7 +97,7 @@ test("Prestations : « Voir les offres » descend aux deux offres", () =>
 test("Prestations : la carte Sur mesure mène aux exemples", () =>
   withPage(1280, async (page) => {
     await page.goto(baseUrl + "/prestations");
-    await page.getByRole("link", { name: /Voir des exemples/ }).click();
+    await page.getByRole("link", { name: /Voir ce que je peux créer/ }).click();
     await expectInView(page, "#sur-mesure");
   }));
 
@@ -122,16 +122,19 @@ test("Accueil : le bandeau mène à la page Prestations", () =>
   }));
 
 // ── Contenu ─────────────────────────────────────────────────────────────
-test("Contenu : seuls les prix « à partir de 200 € » et « à partir de 500 € » apparaissent", () =>
+test("Contenu : seuls les prix de création et d'hébergement validés apparaissent", () =>
   withPage(1280, async (page) => {
     await page.goto(baseUrl + "/prestations");
     const t = await text(page);
     const prices = [...t.matchAll(/\d[\d\s.,]*\s?€/g)].map((m) => m[0].replace(/\s/g, " ").trim());
     assert.ok(prices.length > 0, "aucun prix trouvé");
-    for (const p of prices) assert.ok(["200 €", "500 €"].includes(p), `prix inattendu : « ${p} »`);
+    for (const p of prices) assert.ok(["200 €", "500 €", "800 €", "2 000 €", "20 €", "40 €", "4 €", "2,50 €", "13 €", "150 €", "120 €", "0 €"].includes(p), `prix inattendu : « ${p} »`);
     assert.match(t, /à partir de 200 €/);
     assert.match(t, /à partir de 500 €/);
-    assert.doesNotMatch(t, /%/, "aucun pourcentage ne doit apparaître");
+    assert.match(t, /20 € par mois/);
+    assert.match(t, /40 € par mois/);
+    assert.match(t, /6 mois d'hébergement offerts/);
+    assert.deepEqual([...t.matchAll(/[\d,]+\s?%/g)].map((m) => m[0].replace(/\s/g, " ")), ["8 %"], "seul le taux de 8 % doit apparaître");
     assert.doesNotMatch(t, /garanti|promis/i, "aucune promesse de résultat");
   }));
 
@@ -139,11 +142,13 @@ test("Contenu : le modèle de paiement, le domaine et les emplacements à compl�
   withPage(1280, async (page) => {
     await page.goto(baseUrl + "/prestations");
     const t = await text(page);
-    for (const s of ["facturés à part", "12 mois", "rapport", "réservations, appels, demandes de devis ou ventes en ligne", "Votre charte graphique est reprise et incluse", "Le prix dépend de votre demande", "Parlons de ce qui vous pèse dans la semaine.", "[À COMPLÉTER : exemple réel]"]) {
+    for (const s of ["facturés à part", "12 mois", "rapport", "réservations, rendez-vous, demandes de devis ou ventes en ligne", "Votre charte graphique est reprise et incluse", "Le prix dépend de votre demande", "Parlons de ce qui vous pèse dans la semaine.", "Exemple imaginé"]) {
       assert.ok(t.includes(s), `texte manquant : « ${s} »`);
     }
     const marks = await page.locator("main mark").count();
-    assert.ok(marks >= 4, "les emplacements à compléter doivent être surlignés");
+    const placeholders = t.match(/\[À COMPLÉTER/g)?.length ?? 0;
+    assert.equal(marks, placeholders, "chaque emplacement à compléter doit être surligné");
+    assert.equal(await page.locator('main a[href="tel:0775766329"]').count(), 1, "le téléphone doit être cliquable");
   }));
 
 test("Contenu : l'accueil n'affiche plus de délai chiffré", () =>
@@ -151,6 +156,37 @@ test("Contenu : l'accueil n'affiche plus de délai chiffré", () =>
     await page.goto(baseUrl + "/");
     const t = await text(page);
     assert.doesNotMatch(t, /Semaines? \d|sous 24 h|5 à 8 pages/);
+  }));
+
+test("Contenu : l'accueil parle simplement aux commerçants", () =>
+  withPage(1280, async (page) => {
+    await page.goto(baseUrl + "/");
+    const t = await text(page);
+    assert.doesNotMatch(t, /moodboard|headless|Core Web Vitals|Next\.js|haute fidélité|arborescence|sur-mesure/i);
+    assert.match(t, /exemples imaginés/);
+    assert.match(t, /sous 48 h/);
+    assert.equal(await page.locator('main a[href="tel:0775766329"]').count(), 1, "le téléphone doit être cliquable");
+    assert.equal(await page.locator("main mark").count(), 0, "plus aucun emplacement à compléter sur l'accueil");
+  }));
+
+test("Pied de page : mentions légales présentes, aucun réseau social", () =>
+  withPage(1280, async (page) => {
+    await page.goto(baseUrl + "/");
+    await page.locator("footer").getByRole("link", { name: "Mentions légales" }).click();
+    await page.waitForURL("**/mentions-legales");
+    assert.match(await text(page), /Vercel Inc\./);
+    assert.equal(await page.locator('footer a[href*="linkedin"], footer a[href*="instagram"], footer a[href*="github"]').count(), 0);
+  }));
+
+test("Sur mesure : l'exemple de suivi de stock réagit", () =>
+  withPage(1280, async (page) => {
+    await page.goto(baseUrl + "/prestations#sur-mesure");
+    const summary = page.locator("#sur-mesure [aria-live]");
+    assert.equal(await summary.textContent(), "1 produit à recommander.");
+    const remove = page.getByRole("button", { name: "Retirer : Croissants" });
+    await remove.click();
+    await remove.click();
+    assert.equal(await summary.textContent(), "2 produits à recommander.");
   }));
 
 // ── Mobile ──────────────────────────────────────────────────────────────

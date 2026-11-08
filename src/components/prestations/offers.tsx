@@ -7,6 +7,7 @@ type Offer = {
   id: string;
   name: string;
   price: string;
+  flatPrice: string;
   pitch: string;
   includes: string[];
   notes: string[];
@@ -19,27 +20,30 @@ const offers: Offer[] = [
     id: "vitrine",
     name: "Site vitrine",
     price: "200 €",
+    flatPrice: "800 €",
     pitch: "Un site qui donne envie de venir chez vous, ou de vous contacter.",
     includes: [
+      "Un site de 3 pages, créé pour vous",
+      "Votre offre, avec vos photos et vos textes",
       "Vos horaires et comment venir",
-      "Votre offre et vos photos",
       "Les avis de vos clients",
       "Un bouton pour vous appeler en un geste",
       "Un formulaire de contact ou la réservation en ligne",
     ],
     notes: ["Votre charte graphique est reprise et incluse.", "Une demande particulière ? C'est possible, on en discute."],
-    delay: "Délai : [À COMPLÉTER : délai]",
+    delay: "Délai : 1 semaine, une fois vos photos et vos textes reçus",
     cta: { label: "Parler de mon site", href: "#contact" },
   },
   {
     id: "sur-mesure-offre",
     name: "Sur mesure",
     price: "500 €",
-    pitch: "Un outil fait pour votre commerce, qui vous fait gagner du temps.",
+    flatPrice: "2\u00a0000\u00a0€",
+    pitch: "Pas un site : un outil fait pour votre commerce, qui vous fait gagner du temps.",
     includes: ["Suivi de stock", "Commandes et réservations au même endroit", "Tableau de bord de votre semaine"],
     notes: ["Le prix dépend de votre demande."],
-    delay: "Délai : [À COMPLÉTER : délai]",
-    cta: { label: "Voir des exemples", href: "#sur-mesure" },
+    delay: "Délai : selon votre demande",
+    cta: { label: "Voir ce que je peux créer", href: "#sur-mesure" },
   },
 ];
 
@@ -52,6 +56,9 @@ function OfferCard({ offer }: { offer: Offer }) {
       <p className="mt-4 flex flex-wrap items-baseline gap-x-2 text-ivory">
         <span className="text-lg text-ivory/80">à partir de</span>
         <span className="font-display text-5xl text-accent md:text-6xl">{offer.price}</span>
+      </p>
+      <p className="mt-2 text-lg text-ivory/80">
+        puis selon les résultats, ou à partir de <span className="font-medium text-ivory">{offer.flatPrice}</span> en une seule fois
       </p>
       <p className="mt-6 text-lg leading-relaxed text-ivory/90 md:text-xl">{offer.pitch}</p>
 
@@ -91,10 +98,17 @@ export function Offers() {
         eyebrow="(01) Deux offres"
         title={
           <span id="offres-titre">
-            Simple au départ, <em className="text-accent">sur mesure</em> si besoin.
+            Un site pour vous faire connaître, <em className="text-accent">un outil</em> pour vous aider.
           </span>
         }
       />
+      <Reveal className="mb-6 rounded-[1.25rem] border border-accent/50 p-6 sm:p-8">
+        <p className="font-display text-3xl leading-tight md:text-4xl">
+          Pour mes 5 premiers clients : <em className="text-accent">6 mois d&apos;hébergement offerts.</em>
+        </p>
+        <p className="mt-3 text-lg leading-relaxed text-ivory/80">En échange, vous me laissez montrer votre site en exemple et vous me donnez votre avis.</p>
+      </Reveal>
+
       <div className="grid gap-6 md:grid-cols-2">
         {offers.map((offer, i) => (
           <Reveal key={offer.id} delay={i * 0.1} className="h-full">
@@ -112,8 +126,14 @@ export function Offers() {
             <p className="font-medium text-ivory">Le nom de domaine et l&apos;hébergement sont facturés à part, à un coût modéré.</p>
             <p className="text-ivory/80">
               Le nom de domaine, c&apos;est l&apos;adresse de votre site (par exemple « votre-commerce.fr »). L&apos;hébergement, c&apos;est ce qui
-              le garde en ligne jour et nuit. <Fill>Coût : [À COMPLÉTER : coût du domaine et de l&apos;hébergement]</Fill>
+              le garde en ligne jour et nuit. Les deux forment la maintenance de votre site.
             </p>
+            <ul className="space-y-2 text-ivory">
+              <li>Hébergement : 20 € par mois pour un site vitrine.</li>
+              <li>Hébergement avec base de données : 40 € par mois, quand le site doit garder des informations, comme des commandes ou un stock.</li>
+              <li>Nom de domaine : à votre charge. Son prix dépend du nom choisi.</li>
+            </ul>
+            <p className="text-ivory/80">Cela suffit pour un commerce. Si votre site a un jour besoin de plus, je vous préviens avant, et on décide ensemble.</p>
           </div>
         </aside>
       </Reveal>

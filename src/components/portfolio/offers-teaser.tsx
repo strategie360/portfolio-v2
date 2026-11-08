@@ -18,6 +18,7 @@ export function OffersTeaser() {
             </span>
             <span>Sur mesure à partir de 500 €</span>
           </p>
+          <p className="mt-2 text-lg text-accent">Pour mes 5 premiers clients : 6 mois d&apos;hébergement offerts.</p>
         </div>
         <ButtonLink href="/prestations" className="w-full shrink-0 sm:w-auto">
           Voir les prestations <span aria-hidden>→</span>

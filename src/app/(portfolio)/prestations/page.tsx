@@ -8,7 +8,7 @@ import { PrestationsHero } from "@/components/prestations/prestations-hero";
 export const metadata: Metadata = {
   title: "Prestations",
   description:
-    "Site vitrine à partir de 200 €, outils sur mesure à partir de 500 €. Un petit forfait de départ, puis vous payez selon ce que le site vous apporte vraiment.",
+    "Site vitrine à partir de 200 €, outils sur mesure à partir de 500 €. Payez selon ce que le site vous apporte, ou en une seule fois.",
 };
 
 export default function PrestationsPage() {
@@ -20,12 +20,7 @@ export default function PrestationsPage() {
       <CustomTools />
       <Contact
         eyebrow="(04) Contact"
-        title={
-          <>
-            Parlons de <em className="text-accent">votre</em> commerce.
-          </>
-        }
-        text="Un message ou un appel suffit. Je vous réponds simplement, sans jargon."
+        text="Un message ou un appel suffit. Je vous réponds sous 48 h, simplement et sans jargon."
         showPhone
       />
     </>

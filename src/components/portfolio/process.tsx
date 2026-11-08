@@ -1,12 +1,11 @@
-import { Fill } from "@/components/ui/fill";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionHeading } from "./section-heading";
 
 const steps = [
-  { title: "Écoute", duration: "[À COMPLÉTER : délai]", text: "Atelier de découverte : vos objectifs, votre cible, vos concurrents. On choisit ensemble une direction parmi les inspirations." },
-  { title: "Conception", duration: "[À COMPLÉTER : délai]", text: "Moodboard, arborescence puis maquettes haute fidélité. Vous validez chaque écran avant la moindre ligne de code." },
-  { title: "Réalisation", duration: "[À COMPLÉTER : délai]", text: "Développement, animations, intégration des contenus. Un lien de prévisualisation vous permet de suivre l'avancement en direct." },
-  { title: "Lancement", duration: "[À COMPLÉTER : délai]", text: "Mise en ligne, référencement, formation à l'administration. Je reste disponible pour faire grandir le site avec vous." },
+  { title: "On discute", text: "Vous me parlez de votre commerce et de ce que vous voulez, par téléphone ou par message." },
+  { title: "Vous m'envoyez vos contenus", text: "Vos photos et vos textes suffisent pour démarrer." },
+  { title: "Je crée votre site", text: "Vous le voyez avant tout le monde et vous me dites ce qu'il faut changer." },
+  { title: "Il est en ligne", text: "Vos clients peuvent vous trouver et vous joindre." },
 ];
 
 export function Process() {
@@ -16,12 +15,12 @@ export function Process() {
         eyebrow="(03) Méthode"
         title={
           <>
-            Un processus <em className="text-accent">clair</em>, sans surprise.
+            Simple, <em className="text-accent">du début à la fin.</em>
           </>
         }
         aside={
           <p className="text-base leading-relaxed">
-            <Fill>Délai indicatif pour un site vitrine : [À COMPLÉTER : délai].</Fill>
+            Pour un site vitrine : 1 semaine, une fois vos photos et vos textes reçus.
           </p>
         }
       />
@@ -30,9 +29,6 @@ export function Process() {
           <Reveal as="li" key={s.title} delay={i * 0.08} className="flex flex-col bg-ink p-8 lg:min-h-[360px]">
             <span className="font-display text-7xl text-accent/90 italic">{i + 1}</span>
             <h3 className="mt-auto pt-12 text-xl font-medium">{s.title}</h3>
-            <p className="mt-1 font-mono text-xs text-mute uppercase">
-              <Fill>{s.duration}</Fill>
-            </p>
             <p className="mt-4 text-base leading-relaxed text-mute">{s.text}</p>
           </Reveal>
         ))}

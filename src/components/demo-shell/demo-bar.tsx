@@ -80,7 +80,7 @@ export function DemoBar() {
             <span className="font-mono text-xs text-white/40">{pad(index + 1)}</span>
             <span className="truncate">
               {demo.name}
-              <span className="hidden text-white/40 sm:inline"> — {demo.sector}</span>
+              <span className="text-white/60"> — exemple imaginé</span>
             </span>
             <span className={`ml-auto text-xs text-white/40 transition ${open ? "rotate-180" : ""}`} aria-hidden>
               ▲

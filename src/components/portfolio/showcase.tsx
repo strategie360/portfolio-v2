@@ -8,7 +8,7 @@ import { SectionHeading } from "./section-heading";
 function DemoCard({ demo, index }: { demo: Demo; index: number }) {
   const Cover = covers[demo.slug];
   return (
-    <Link href={demoHref(demo.slug)} className="group block" aria-label={`Ouvrir la démo ${demo.name}`}>
+    <Link href={demoHref(demo.slug)} className="group block" aria-label={`Visiter ${demo.name}, un exemple imaginé`}>
       <div className="relative aspect-[4/5] overflow-hidden rounded-[1.25rem] bg-ink-3 md:aspect-[5/6]">
         <div aria-hidden className="absolute inset-0 transition-transform duration-[1.2s] ease-out-expo group-hover:scale-[1.04]">
           <Cover />
@@ -19,7 +19,8 @@ function DemoCard({ demo, index }: { demo: Demo; index: number }) {
         </span>
       </div>
 
-      <div className="mt-5 flex items-start justify-between gap-6">
+      <span className="mt-5 inline-block rounded-full border border-line px-3 py-1 text-sm text-ivory">Exemple imaginé</span>
+      <div className="mt-3 flex items-start justify-between gap-6">
         <div>
           <div className="flex items-baseline gap-3">
             <span className="font-mono text-xs text-mute">{pad(index + 1)}</span>
@@ -47,16 +48,23 @@ export function Showcase() {
         eyebrow="(01) Inspirations"
         title={
           <>
-            {demos.length} univers, <em className="text-accent">un seul</em> artisan.
+            {demos.length} exemples <em className="text-accent">pour imaginer</em> le vôtre.
           </>
         }
         aside={
           <p className="text-base leading-relaxed">
-            Chaque démo est un vrai site, pensé pour un secteur précis. Cliquez, naviguez, comparez — puis
-            dites-moi lequel vous parle.
+            Ces sites sont des exemples imaginés, pas de vrais clients. Visitez-les, puis dites-moi ce qui
+            vous plaît.
           </p>
         }
       />
+
+      <Reveal className="mb-14 rounded-[1.25rem] border border-dashed border-ivory/25 p-6 sm:p-8">
+        <p className="max-w-3xl text-lg leading-relaxed text-ivory/80">
+          Ces exemples montrent ce qu&apos;il est possible de faire. Certains vont plus loin qu&apos;un site vitrine, comme la 3D d&apos;Orbe :
+          leur prix dépend alors de votre demande.
+        </p>
+      </Reveal>
 
       <div className="grid gap-x-8 gap-y-20 md:grid-cols-2">
         {demos.map((demo, i) => (

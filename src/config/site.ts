@@ -5,20 +5,14 @@
 export const site = {
   name: "Tom Bartuzel",
   shortName: "TB",
-  role: "Design & développement web",
-  tagline: "Des sites sur-mesure qui ressemblent à votre ambition.",
+  role: "Création de sites pour les commerces",
+  tagline: "Des sites qui donnent envie de venir chez vous.",
   description:
-    "Studio indépendant de design et développement web. Explorez des univers complets — luxe, tech, gastronomie, architecture — pour imaginer le vôtre.",
-  // Adresse provisoire : à remplacer par la vôtre.
-  email: "contact@votre-domaine.fr",
-  phone: "[À COMPLÉTER : téléphone]",
+    "Je crée des sites pour les commerces : restaurants, artisans, boutiques. Site vitrine à partir de 200 €, outils sur mesure à partir de 500 €.",
+  email: "tom@bartuzel.me",
+  phone: "07 75 76 63 29",
   location: "France — à distance partout",
   availability: "Disponible pour nouveaux projets",
-  socials: [
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "Instagram", href: "https://www.instagram.com/" },
-  ],
 } as const;
 
 /**

@@ -42,3 +42,6 @@ next-env.d.ts
 
 # rapports de vérification responsive
 /.checks/
+
+# rapports mensuels des clients
+/.reports/

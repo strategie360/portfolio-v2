@@ -11,7 +11,9 @@
     "check:cls": "next build && node scripts/check-responsive.mjs --cls",
     "check:a11y": "next build && node scripts/check-a11y.mjs",
     "check:navigation": "next build && node scripts/check-navigation.mjs",
-    "check": "npm run lint && next build && node scripts/check-navigation.mjs && node scripts/check-a11y.mjs && node scripts/check-responsive.mjs"
+    "check:results": "next build && node scripts/check-results.mjs",
+    "results": "node --disable-warning=ExperimentalWarning --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --env-file-if-exists=.env.local scripts/results.mjs",
+    "check": "npm run lint && next build && node scripts/check-results.mjs && node scripts/check-navigation.mjs && node scripts/check-a11y.mjs && node scripts/check-responsive.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",

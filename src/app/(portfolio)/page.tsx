@@ -15,7 +15,7 @@ export default function HomePage() {
       <OffersTeaser />
       <Capabilities />
       <Process />
-      <Contact />
+      <Contact showPhone />
     </>
   );
 }

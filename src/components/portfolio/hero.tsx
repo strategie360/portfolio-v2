@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { site } from "@/config/site";
 import { demos } from "@/demos/registry";
 import { Reveal, RevealLines } from "@/components/ui/reveal";
@@ -24,10 +25,8 @@ export function Hero() {
           <RevealLines
             lines={[
               "Des sites qui",
-              <span key="b">
-                ressemblent <em className="text-accent">à votre</em>
-              </span>,
-              <em key="a">ambition.</em>,
+              <span key="b">donnent envie</span>,
+              <em key="a" className="text-accent">de venir chez vous.</em>,
             ]}
           />
         </h1>
@@ -35,18 +34,23 @@ export function Hero() {
         <div className="mt-14 grid gap-10 border-t border-line pt-8 md:grid-cols-12">
           <Reveal className="md:col-span-5" delay={0.4}>
             <p className="max-w-md text-lg leading-relaxed text-mute">
-              {site.role}. Plutôt qu&apos;un catalogue de captures d&apos;écran, ce portfolio vous ouvre{" "}
-              <span className="text-ivory">{demos.length} univers complets</span>, navigables comme de vrais sites —
-              pour imaginer concrètement le vôtre.
+              Je crée des sites pour les commerces : restaurants, artisans, boutiques. Visitez les{" "}
+              <span className="text-ivory">{demos.length} exemples imaginés</span> ci-dessous pour vous faire une idée du vôtre.
             </p>
           </Reveal>
 
-          <Reveal className="flex items-end gap-4 md:col-span-4 md:col-start-9 md:justify-end" delay={0.5}>
+          <Reveal className="flex flex-col gap-3 sm:flex-row md:col-span-6 md:col-start-7 md:items-end md:justify-end" delay={0.5}>
+            <Link
+              href="/prestations"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-ivory px-6 py-3 text-base font-medium text-ink transition hover:bg-accent"
+            >
+              Voir les prix
+            </Link>
             <a
               href="#inspirations"
-              className="group inline-flex items-center gap-3 rounded-full border border-line px-6 py-3.5 text-base transition hover:border-ivory"
+              className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-line px-6 py-3 text-base transition hover:border-ivory"
             >
-              Explorer les inspirations
+              Voir les exemples
               <span className="transition group-hover:translate-y-0.5" aria-hidden>
                 ↓
               </span>
