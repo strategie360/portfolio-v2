@@ -42,9 +42,10 @@ export default function MentionsLegalesPage() {
 
       <Block title="Vos informations">
         <p>
-          Ce site ne dépose aucun cookie de suivi et n&apos;utilise aucun outil de mesure d&apos;audience. L&apos;hébergeur peut conserver des
-          informations techniques nécessaires au fonctionnement du site.
+          Ce site ne dépose aucun cookie de suivi. Il utilise Vercel Web Analytics pour mesurer sa fréquentation de façon globale : pages
+          vues, site d&apos;origine, pays, type d&apos;appareil et navigateur. Ces statistiques ne servent pas à vous identifier.
         </p>
+        <p>L&apos;hébergeur peut conserver des informations techniques nécessaires au fonctionnement du site.</p>
         <p>
           Si vous m&apos;écrivez ou m&apos;appelez, vos coordonnées servent uniquement à vous répondre et à suivre notre échange. Vous pouvez
           demander à les consulter, les corriger ou les supprimer en écrivant à {site.email}. Vous pouvez aussi vous adresser à la CNIL.
