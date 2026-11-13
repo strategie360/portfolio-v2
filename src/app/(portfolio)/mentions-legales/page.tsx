@@ -23,8 +23,7 @@ export default function MentionsLegalesPage() {
 
       <Block title="Qui édite ce site">
         <p>{site.name}, entrepreneur individuel (EI)</p>
-        {/* À remplacer par le numéro dès qu'il est attribué. */}
-        <p>SIREN : en cours d&apos;attribution</p>
+        <p>SIREN : 934 399 429</p>
         <p>Adresse : 18 rue des Peupliers, 34830 Clapiers</p>
         <p>
           Téléphone : <a className="underline underline-offset-4" href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a>
